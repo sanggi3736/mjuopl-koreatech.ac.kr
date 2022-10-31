@@ -1,0 +1,101 @@
+from ast import If
+import RPi.GPIO as GPIO
+import time
+
+PWMA = 18
+PWMB = 23
+AIN1 = 22
+AIN2 = 27
+BIN1 = 25
+BIN2 = 24
+SW1 = 5
+SW2 = 6
+SW3 = 13
+SW4 = 19
+num1 = 0
+num2 = 0
+num3 = 0
+num4 = 0
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(SW1,GPIO.IN,pull_up_down=GPIO.PUD_DOWN) #1번 스위치 입력셋업
+GPIO.setup(SW2,GPIO.IN,pull_up_down=GPIO.PUD_DOWN) #2번 스위치 입력셋업
+GPIO.setup(SW3,GPIO.IN,pull_up_down=GPIO.PUD_DOWN) #3번 스위치 입력셋업
+GPIO.setup(SW4,GPIO.IN,pull_up_down=GPIO.PUD_DOWN) #4번 스위치 입력셋업
+GPIO.setup(PWMA,GPIO.OUT) #PWMA출력셋업
+GPIO.setup(PWMB,GPIO.OUT) #PwMB출력셋업
+GPIO.setup(AIN1,GPIO.OUT) #AIN1출력셋업
+GPIO.setup(AIN2,GPIO.OUT) #AIN2출력셋업
+GPIO.setup(BIN1,GPIO.OUT) #BIN1출력셋업
+GPIO.setup(BIN2,GPIO.OUT) #BIN2출력셋업
+
+L_Motor = GPIO.PWM(PWMA,500) #왼쪽모터 셋팅,주파수
+R_Motor = GPIO.PWM(PWMB,500) #오른쪽모터 셋팅,주파수
+L_Motor.start(0) #듀티 사이클 초기값 셋팅
+R_Motor.start(0)
+
+def go(): #함수 def 함수명은 go
+    L_Motor.ChangeDutyCycle(100) #100으로 듀티사이클값 변경
+    R_Motor.ChangeDutyCycle(100)
+    GPIO.output(AIN1,0)
+    GPIO.output(AIN2,1)
+    GPIO.output(BIN1,0)
+    GPIO.output(BIN2,1) # 직진이므로 왼쪽 오른쪽 출력설정
+    
+    
+
+def right():#함수 def 함수명은 right
+    L_Motor.ChangeDutyCycle(100) #100으로 듀티사이클값 변경
+    GPIO.output(AIN1,0)
+    GPIO.output(AIN2,1) # 우회전이므로 왼쪽 출력설정
+    
+
+def left(): #함수 def 함수명은 left
+    R_Motor.ChangeDutyCycle(100) #100으로 듀티사이클값 변경
+    GPIO.output(BIN1,0)
+    GPIO.output(BIN2,1) #  좌회전이므로 오른쪽 출력설정 
+    
+
+def back(): #함수 def 함수명은 back
+    L_Motor.ChangeDutyCycle(100) #100으로 듀티사이클값 변경
+    R_Motor.ChangeDutyCycle(100)
+    GPIO.output(AIN1,1)
+    GPIO.output(AIN2,0)
+    GPIO.output(BIN1,1)
+    GPIO.output(BIN2,0)  # 후진이므로 왼쪽 오른쪽 출력설정
+    
+
+try:
+    while True:
+        
+        
+        
+        if GPIO.input(SW1): # 1번 스위치 if문
+            sw1Value = GPIO.input(SW1) 
+            print("SW1 click") #화면에 츨력되도록 프린트문 작성
+            go() #def함수의 함수명 go를 실행
+            
+
+        elif GPIO.input(SW2): # 2번 스위치 elif문
+              sw2Value = GPIO.input(SW2)
+              print("SW2 click")
+              right() #def함수의 함수명 right를 실행
+
+
+        elif GPIO.input(SW3): # 3번 스위치 elif문
+              sw3Value = GPIO.input(SW3)
+              print("SW3 click")
+              left() #def함수의 함수명 left를 실행
+        
+        elif GPIO.input(SW4): # 4번 스위치 elif문
+              sw4Value = GPIO.input(SW4)
+              print("SW4 click")
+              back() #back함수의 함수명 left를 실행
+              
+        
+
+except KeyboardInterrupt:
+    pass
+
+GPIO.cleanup() #키보드 컨트롤c입력하면 리셋

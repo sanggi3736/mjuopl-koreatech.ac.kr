@@ -1,0 +1,26 @@
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(37,GPIO.OUT) #37번핀 셋업
+GPIO.setup(36,GPIO.OUT) #36번핀 셋업
+GPIO.setup(40,GPIO.OUT) #40번핀 셋업
+GPIO.setup(38,GPIO.OUT) #38번핀 셋업
+
+while True: # while문을 통해 핀 high, low로 반복
+    GPIO.output(37,GPIO.HIGH) #high led킴
+    time.sleep(1.0) #1초 있다가
+    GPIO.output(37,GPIO.LOW) #low led끔
+    time.sleep(1.0) #1초 있다가
+    GPIO.output(36,GPIO.HIGH) #high led킴
+    time.sleep(1.0) #1초 있다가
+    GPIO.output(36,GPIO.LOW) #low led끔
+    time.sleep(1.0) #1초 있다가
+    GPIO.output(40,GPIO.HIGH) #high led킴
+    time.sleep(1.0) #1초 있다가
+    GPIO.output(40,GPIO.LOW) #low led끔
+    time.sleep(1.0) #1초 있다가
+    GPIO.output(38,GPIO.HIGH) #high led킴
+    time.sleep(1.0) #1초 있다가
+    GPIO.output(38,GPIO.LOW) #low led끔
+    time.sleep(1.0) #1초 있다가

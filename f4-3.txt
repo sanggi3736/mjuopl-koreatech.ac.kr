@@ -1,0 +1,30 @@
+import RPi.GPIO as GPIO
+import time
+import random
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(37,GPIO.OUT) #37번핀 셋업
+GPIO.setup(36,GPIO.OUT) #36번핀 셋업
+GPIO.setup(40,GPIO.OUT) #40번핀 셋업
+GPIO.setup(38,GPIO.OUT) #38번핀 셋업
+
+list = [37,36,40,38]
+random.shuffle(list) # 리스트의 값을 셔플
+
+
+for i in range(10) :
+    if (i>=4 and i<8): # i는4 ~ 7 까지
+        GPIO.output(list[i-4],GPIO.HIGH)
+        time.sleep(0.5) # 0.5초있다가
+        GPIO.output(list[i-4],GPIO.LOW)
+        time.sleep(0.5) # 0.5초있다가
+    elif (i>=8): # i=8 ~ i=9
+        GPIO.output(list[i-8],GPIO.HIGH)
+        time.sleep(0.5) # 0.5초있다가
+        GPIO.output(list[i-8],GPIO.LOW)
+        time.sleep(0.5) # 0.5초있다가
+    else : #i=0 ~ i=3
+        GPIO.output(list[i],GPIO.HIGH)
+        time.sleep(0.5) # 0.5초있다가
+        GPIO.output(list[i],GPIO.LOW)
+        time.sleep(0.5) # 0.5초있다가

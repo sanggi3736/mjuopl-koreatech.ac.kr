@@ -1,0 +1,31 @@
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(37,GPIO.OUT)
+GPIO.setup(36,GPIO.OUT)
+GPIO.setup(40,GPIO.OUT)
+GPIO.setup(38,GPIO.OUT)
+
+
+try: # try~ except문 시작
+    while True: # while문을 통해 핀 high, low로 반복
+     GPIO.output(37,GPIO.HIGH) #high led킴
+     time.sleep(1.0) #1초 있다가
+     GPIO.output(37,GPIO.LOW) #low led끔
+     time.sleep(1.0) #1초 있다가
+     GPIO.output(36,GPIO.HIGH) #high led킴
+     time.sleep(1.0) #1초 있다가
+     GPIO.output(36,GPIO.LOW) #low led끔
+     time.sleep(1.0) #1초 있다가
+     GPIO.output(40,GPIO.HIGH) #high led킴
+     time.sleep(1.0) #1초 있다가
+     GPIO.output(40,GPIO.LOW) #low led끔
+     time.sleep(1.0) #1초 있다가
+     GPIO.output(38,GPIO.HIGH) #high led킴
+     time.sleep(1.0) #1초 있다가
+     GPIO.output(38,GPIO.LOW) #low led끔
+     time.sleep(1.0) #1초 있다가
+
+except KeyboardInterrupt: #키보드 컨트롤 c를 입력하면
+ GPIO.cleanup() # led핀 끄고 리셋한다

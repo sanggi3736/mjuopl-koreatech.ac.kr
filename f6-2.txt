@@ -1,0 +1,102 @@
+import RPi.GPIO as GPIO
+import time
+
+BUZZER = 12
+SW1 = 5
+SW2 = 6
+SW3 = 13
+SW4 = 19
+
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM) #BCM모드 GPIO모듈 번호로 사용
+GPIO.setup(BUZZER,GPIO.OUT) #부저 셋업
+GPIO.setup(SW1,GPIO.IN,pull_up_down=GPIO.PUD_DOWN) #1번 스위치 셋업
+GPIO.setup(SW2,GPIO.IN,pull_up_down=GPIO.PUD_DOWN) #2번 스위치 셋업
+GPIO.setup(SW3,GPIO.IN,pull_up_down=GPIO.PUD_DOWN) #3번 스위치 셋업
+GPIO.setup(SW4,GPIO.IN,pull_up_down=GPIO.PUD_DOWN) #4번 스위치 셋업
+
+p = GPIO.PWM(BUZZER,261) # 주파수 261의 PWM 생성
+
+
+try:
+    while True:
+        sw1Value = GPIO.input(SW1)
+        
+        sw2Value = GPIO.input(SW2)
+        
+        sw3Value = GPIO.input(SW3)
+        
+        sw4Value = GPIO.input(SW4)
+        
+        if sw1Value: # 1번 스위치 if문
+            p.start(50) # 듀티싸이클 50%로 설정
+            p.ChangeFrequency(330) #4옥타브 미 주파수
+            time.sleep(1.0) # 1초 시간지연
+            
+            p.ChangeFrequency(330)
+            time.sleep(1.0)
+            
+            p.ChangeFrequency(394)
+            time.sleep(0.5)
+            p.stop
+        elif sw2Value: # 2번 스위치 elif문
+            p.start(50) # 듀티싸이클 50%로 설정
+            p.ChangeFrequency(330) #4옥타브 미 주파수
+            time.sleep(0.5) # 0.5초 시간지연
+           
+            p.ChangeFrequency(394)
+            time.sleep(0.5)
+            
+            p.ChangeFrequency(394)
+            time.sleep(1.0)
+            
+            p.ChangeFrequency(394)
+            time.sleep(0.5)
+            p.stop
+        elif sw3Value: # 3번 스위치 elif문
+            p.start(50) # 듀티싸이클 50%로 설정
+            p.ChangeFrequency(262) #4옥타브 도 주파수
+            time.sleep(1.0) # 1초 시간지연
+            
+            p.ChangeFrequency(262)
+            time.sleep(1.0)
+            
+            p.ChangeFrequency(440)
+            time.sleep(1.0)
+            
+            p.ChangeFrequency(262)
+            time.sleep(1.0)
+            p.stop
+        elif sw4Value: # 4번 스위치 elif문
+            p.start(50) # 듀티싸이클 50%로 설정
+            p.ChangeFrequency(262) #4옥타브 도 주파수
+            time.sleep(1.0) # 1초 시간지연
+            
+            p.ChangeFrequency(494)
+            time.sleep(1.0)
+            
+            p.ChangeFrequency(262)
+            time.sleep(1.0)
+            
+            p.ChangeFrequency(494)
+            time.sleep(1.0)
+            
+            p.ChangeFrequency(440)
+            time.sleep(1.0)
+            
+            p.ChangeFrequency(440)
+            time.sleep(1.0)
+            
+            p.ChangeFrequency(292)
+            time.sleep(1.0)
+            
+            p.ChangeFrequency(292)
+            time.sleep(1.0)
+            p.stop
+            
+except KeyboardInterrupt:
+    pass
+
+
+GPIO.cleanup() #키보드 컨트롤c입력하면 리셋
